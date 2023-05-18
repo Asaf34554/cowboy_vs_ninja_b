@@ -1,5 +1,5 @@
 #pragma once
-#include "ninja.hpp"
+#include "Ninja.hpp"
 
 using namespace std;
 namespace ariel{
@@ -12,9 +12,6 @@ namespace ariel{
             ~TrainedNinja(){
                 
             }
-
-
-
     };
 
 }

@@ -1,6 +1,6 @@
 #include <iostream>  
 #include <cmath>
-#include "point.hpp"
+#include "Point.hpp"
 
 using namespace std;
 using namespace ariel;

@@ -8,9 +8,13 @@ namespace ariel{
 
 
         public:
+        Point(){
+            __x = 0;
+            __y = 0;
+        }
+
         Point(double x,double y):
             __x(x),__y(y){}
-
         double getX(){
             return __x;
         }
@@ -25,7 +29,12 @@ namespace ariel{
         void setY(double new_y){
             __y = new_y;
         }
-
+        Point operator = (const Point& other){
+            if(this == &other)return *this;
+            __x = other.__x;
+            __y = other.__y;
+            return *this;
+        }
         std::string print(){
             int intx = __x*1000;
             int inty = __y*1000;
@@ -36,7 +45,7 @@ namespace ariel{
         }
 
         double distance(Point dst);
-        Point moveTowards(Point src,Point dst,double dist);
+        static Point moveTowards(Point src,Point dst,double dist);
     };
 
 }

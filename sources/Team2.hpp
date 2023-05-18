@@ -4,23 +4,12 @@
 
 namespace ariel{
     class Team2 : public Team{
-        int num_of_warriors;
-        Character* warriors[10];
-
-
+        
         public:
-            Team2(Character* warrior);
-            ~Team2();
-
-            
-            void add(Character* warrior);
-            
+            Team2(Character* warrior):
+                Team(warrior) {}
+            ~Team2(){}
             void attack(Team* rival);
-            
-            int stillAlive(){
-                return num_of_warriors;
-            }
             void print();
-
     };
 }

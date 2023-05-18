@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "point.hpp"
+#include "Point.hpp"
 
 namespace ariel{
 
@@ -11,17 +11,32 @@ namespace ariel{
         int _lifepoint;
         std::string _name;
         char _type;
+        bool _use;
 
         public:
         //constructors
 
         Character(int hitpoint,Point location,std::string name,char type):
-            _lifepoint(hitpoint),_location(location),_name(name),_type(type) {}
+            _lifepoint(hitpoint),_location(location),_name(name),_type(type), _use(false){}
         
-        ~Character(){
-            
+        Character(const Character& other):
+            _lifepoint(other._lifepoint),_location(other._location),_name(other._name),_type(other._type),_use(false){}
+
+        Character(Character&& other) noexcept:
+            _location(std::move(other._location)),_lifepoint(other._lifepoint),_name(std::move(other._name)),_type(other._type),_use(other._use){}
+        
+        ~Character(){ }
+
+        Character& operator = (Character&& other)noexcept;
+
+        Character operator = (const Character& other);
+
+        void setUse(bool use){
+            _use = use;
         }
-        
+        bool inUse(){
+            return _use;
+        }
         std::string getName(){
             return _name;
         }
@@ -39,11 +54,11 @@ namespace ariel{
         }
         std:: string print(){
 
-            if(this->is_Alive() && _type == 'N'){
+            if(this->isAlive() && _type == 'N'){
                 std:: string ans = "Name: N "+ this->getName() + "\nLife: " + std:: to_string(this->lifePoint()) +"\nLocation: "+this->getLocation().print(); 
                 return ans;
             }
-            else if(this->is_Alive() && _type == 'C'){
+            else if(this->isAlive() && _type == 'C'){
                 std:: string ans = "Name: C " + this->getName() + "\nLife: " + std:: to_string(this->lifePoint()) +"\nLocation: "+this->getLocation().print(); 
                 return ans;
             }
@@ -57,7 +72,7 @@ namespace ariel{
             }
 
         }
-        bool is_Alive();
+        bool isAlive();
         double distance(Character * dst);
         void hit(int hit);
 

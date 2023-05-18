@@ -16,7 +16,10 @@ namespace ariel{
         }
         
         void reload(){
-            _bullets = 6;
+            if(isAlive())_bullets = 6;
+            else{
+                throw std:: runtime_error("The Cowboy is dead");
+            }
         }
         bool hasboolets(){
             if(_bullets == 0)return false;

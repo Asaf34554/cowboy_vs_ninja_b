@@ -17,13 +17,18 @@ namespace ariel{
         }
 
         void slash(Character* enemy){
-            if(this->distance(enemy) <= 1.0 && this->is_Alive()){
+            if(this == enemy){
+                throw std::runtime_error("The Ninja cant hithimself");
+            }
+            if(enemy->isAlive() == false){
+                throw std::runtime_error("The enemy is dead!");
+            }
+            if(this->isAlive() == false){
+                throw std::runtime_error("This Ninja is allready dead!");
+            }
+            if(this->distance(enemy) <= 1.0){
                 enemy->hit(40);
             }
-            else if(this->is_Alive()){ 
-                move(enemy);
-            }
-
         }
         void move(Character * enemy){
             Point src = this->getLocation();
