@@ -7,32 +7,15 @@ namespace ariel{
         int _speed;
         
         public:
-        Ninja(int hitPoint,Point location,std::string name,int speed):
+        Ninja(int hitPoint,Point location,const std::string& name,int speed):
             Character(hitPoint,location,name,'N'),_speed(speed){}
-        ~Ninja(){
-            
-        }
-        int getSpeed(){
+        // ~Ninja(){
+        // }
+        int getSpeed()const{
             return _speed;
         }
 
-        void slash(Character* enemy){
-            if(this == enemy){
-                throw std::runtime_error("The Ninja cant hithimself");
-            }
-            if(enemy->isAlive() == false){
-                throw std::runtime_error("The enemy is dead!");
-            }
-            if(this->isAlive() == false){
-                throw std::runtime_error("This Ninja is allready dead!");
-            }
-            if(this->distance(enemy) <= 1.0){
-                enemy->hit(40);
-            }
-        }
-        void move(Character * enemy){
-            Point src = this->getLocation();
-            this->setLocation( src.moveTowards(src,enemy->getLocation(),this->_speed));
-        }
+        void slash(Character* enemy);
+        void move(Character * enemy);
     };
 }

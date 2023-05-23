@@ -6,22 +6,39 @@ using namespace ariel;
 
 Team::Team(Character * warrior){
     if(!warrior){
-        throw runtime_error("The Character in net initialize");
+        throw runtime_error("The Character is not initialize");
     }
     if(warrior->inUse() == true){
-        throw runtime_error("The warrior is in anther team");
+        throw runtime_error("The warrior is in another team");
     }
     warrior->setUse(true);
     num_of_warriors = 1;
-    _warriors[0] = warrior;
+    _warriors.push_back(warrior);
     _leader = warrior;
 }
 
 Team::~Team(){
-    for(int i =0;i< this->num_of_warriors;++i){
-        delete _warriors[i]; 
+    for(Character* figther :_warriors){
+        delete figther; 
     }
 }
+
+Team& Team:: operator=(const Team& other){
+    if(this == &other){
+        return *this;
+    }
+    delete _leader;
+    _leader = other._leader;
+    for(Character * warr : _warriors){
+        delete warr;
+    }
+    for(Character* warr : other._warriors){
+        _warriors.push_back(warr);
+    }
+    return *this;
+
+}
+
 
 void Team:: setLeader(){
     if(_leader->isAlive() ){
@@ -36,9 +53,9 @@ void Team:: setLeader(){
 
     double check = __DBL_MAX__;
     double temp;
-    for(int i = 1;i<num_of_warriors;i++){
-        if((temp=src.distance(_warriors[i]->getLocation())) < check && _warriors[i]->isAlive()){
-            _leader = _warriors[i];
+    for(Character * led :_warriors){
+        if((temp=src.distance(led->getLocation())) < check && led->isAlive()){
+            _leader = led;
             check = temp;
         }
     }
@@ -57,34 +74,34 @@ void Team:: add(Character * warrior){
     }
     else{
         warrior->setUse(true);
-        _warriors[num_of_warriors] = warrior;
+        _warriors.push_back(warrior);
         num_of_warriors +=1;
         // this->setTeam();
     }
 }
 
-void Team:: setTeam(){ 
-    if(num_of_warriors <= 1){
-        return;
-    }
-    Character* ans[10];
-    ans[0] = _warriors[0];
-    int temp =1;
-    for(int i =1;i<num_of_warriors;++i){
-        if(_warriors[i]->getType() == 'C'){
-            ans[temp++] = _warriors[i];
-        }
-    }
-    for(int i =1;i<num_of_warriors;++i){
-        if(_warriors[i]->getType() == 'N'){
-            ans[temp++] = _warriors[i];
-        }
-    }
-    for(int i =0;i <num_of_warriors ; ++i){
-        _warriors[i] = ans[i];
-    }
+// void Team:: setTeam(){ 
+//     if(num_of_warriors <= 1){
+//         return;
+//     }
+//     Character* ans[10];
+//     ans[0] = _warriors[0];
+//     int temp =1;
+//     for(int i =1;i<num_of_warriors;++i){
+//         if(_warriors[i]->getType() == 'C'){
+//             ans[temp++] = _warriors[i];
+//         }
+//     }
+//     for(int i =1;i<num_of_warriors;++i){
+//         if(_warriors[i]->getType() == 'N'){
+//             ans[temp++] = _warriors[i];
+//         }
+//     }
+//     for(int i =0;i <num_of_warriors ; ++i){
+//         _warriors[i] = ans[i];
+//     }
 
-}
+// }
 
 void Team::attack(Team* rival){
     if(rival == NULL){
@@ -98,10 +115,10 @@ void Team::attack(Team* rival){
     }
     this->setLeader();
     Character * enemy = this->chooseWhoToHit(rival);
-    for (size_t i = 0; i < num_of_warriors; i++)
+    for (Character * att :_warriors)
     {
-        if(_warriors[i]->getType() == 'C' && _warriors[i]->isAlive()){
-            Cowboy* attacker = (Cowboy*)_warriors[i];
+        if(att->getType() == 'C' && att->isAlive()){
+            Cowboy* attacker = (Cowboy*)att;
             if(attacker->hasboolets())attacker->shoot(enemy);
             else attacker->reload();
             
@@ -113,10 +130,10 @@ void Team::attack(Team* rival){
             enemy = this->chooseWhoToHit(rival);
         }
     }
-    for (size_t i = 0; i < num_of_warriors; i++)
+    for (Character * att :_warriors)
     {
-        if(_warriors[i]->getType() == 'N' && _warriors[i]->isAlive()){
-            Ninja* attacker = (Ninja*)_warriors[i];
+        if(att->getType() == 'N' && att->isAlive()){
+            Ninja* attacker = (Ninja*)att;
             if(attacker->distance(enemy) <=1)attacker->slash(enemy);
             else attacker->move(enemy);      
         }
@@ -132,8 +149,8 @@ void Team::attack(Team* rival){
 
 int Team:: stillAlive(){
     int ans = 0;
-    for (size_t i = 0; i < this->num_of_warriors ; i++){
-        if(this->_warriors[i]->isAlive())ans++;
+    for (Character * alive :_warriors){
+        if(alive->isAlive())ans++;
     }
     return ans;
 }
@@ -147,9 +164,9 @@ Character* Team:: chooseWhoToHit(Team* rival){
     Point src = _leader->getLocation();
     double check = __DBL_MAX__;
     double temp;
-    for(int i = 0;i<rival->num_of_warriors;++i){
-        if((temp=src.distance(rival->_warriors[i]->getLocation())) < check && rival->_warriors[i]->isAlive()){
-            ans = rival->_warriors[i];
+    for(Character * enemy :rival->_warriors){
+        if((temp=src.distance(enemy->getLocation())) < check && enemy->isAlive()){
+            ans = enemy;
             check = temp;
         }
     }
@@ -159,16 +176,16 @@ Character* Team:: chooseWhoToHit(Team* rival){
 
 void Team:: print(){
     cout<< "\n***********TEAM**********"<<endl;
-    for(int i =0;i<num_of_warriors;++i){
-        if(_warriors[i]->getType() == 'C'){
-            cout << _warriors[i]->print() <<endl;
+    for(Character * prt : _warriors){
+        if(prt->getType() == 'C'){
+            cout << prt->print() <<endl;
             cout << "---------"<<endl;
         }
         
     }
-    for(int i =0;i<num_of_warriors;++i){
-        if(_warriors[i]->getType() == 'N')
-        cout << _warriors[i]->print() <<endl;
+    for(Character * prt : _warriors){
+        if(prt->getType() == 'N')
+        cout << prt->print() <<endl;
         cout << "---------"<<endl;
         
     }

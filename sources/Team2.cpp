@@ -17,15 +17,15 @@ void Team2::attack(Team* rival){
     }
     this->setLeader();
     Character * enemy = this->chooseWhoToHit(rival);
-    for (size_t i = 0; i < this->getNumOfWarriors(); i++)
+    for (Character * att :this->getWarrior())
     {
-        if(this->getWarrior(i)->getType() == 'C' && this->getWarrior(i)->isAlive()){
-            Cowboy* attacker = (Cowboy*)this->getWarrior(i);
+        if(att->getType() == 'C' && att->isAlive()){
+            Cowboy* attacker = (Cowboy*)att;
             if(attacker->hasboolets())attacker->shoot(enemy);
             else attacker->reload();
         }
-        else if(this->getWarrior(i)->getType() == 'N' && this->getWarrior(i)->isAlive()){
-            Ninja* attacker = (Ninja*)this->getWarrior(i);
+        else if(att->getType() == 'N' && att->isAlive()){
+            Ninja* attacker = (Ninja*)att;
             if(attacker->distance(enemy) <= 1)attacker->slash(enemy);
             else attacker->move(enemy);
         }
@@ -40,13 +40,13 @@ void Team2::attack(Team* rival){
 
 void Team2:: print(){
     cout<< "\n***********TEAM**********"<<endl;
-    for(int i =0;i<this->getNumOfWarriors();++i){
-        if(this->getWarrior(i)->getType() == 'C'){
-            cout << this->getWarrior(i)->print() <<endl;
+    for(Character * prt :this->getWarrior()){
+        if(prt->getType() == 'C'){
+            cout << prt->print() <<endl;
             cout << "---------"<<endl;
         }
-        if(this->getWarrior(i)->getType() == 'N'){
-            cout << this->getWarrior(i)->print() <<endl;
+        if(prt->getType() == 'N'){
+            cout << prt->print() <<endl;
             cout << "---------"<<endl;
         }
         

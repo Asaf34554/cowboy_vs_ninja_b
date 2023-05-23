@@ -3,12 +3,14 @@
 #include "YoungNinja.hpp"
 #include "TrainedNinja.hpp"
 #include "OldNinja.hpp"
+#include <vector>  
 
 
+constexpr int WARRIORS = 10;
 namespace ariel{
     class Team{
         int num_of_warriors;
-        Character* _warriors[10];
+        std::vector<Character*> _warriors;
         Character* _leader;
         
            
@@ -17,7 +19,12 @@ namespace ariel{
 
         
             Team(Character* warrior);
+            Team(const Team& other) = delete;
+            Team(Team&& other) = delete;
+            Team& operator = (const Team& other);
+            Team& operator = (Team&& other) = delete;
             ~Team();
+
 
 
 
@@ -25,18 +32,19 @@ namespace ariel{
             Team* getTeamA(){
                 return this;
             }
-            Character* getWarrior(int index){
-                return _warriors[index];
+
+            std::vector<Character*> getWarrior()const{
+                return _warriors;
             }
             void add(Character* warrior);
             void attack(Team* rival);
             int stillAlive();
-            int getNumOfWarriors(){
+            int getNumOfWarriors()const{
                 return num_of_warriors;
             }
             Character* chooseWhoToHit(Team* rival);
             void setLeader();
-            void setTeam(); 
+            // void setTeam(); 
             void print();
     };
 }

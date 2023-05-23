@@ -5,6 +5,9 @@
 using namespace std;
 using namespace ariel;
 
+Cowboy::Cowboy(const std::string& name,Point location):
+        Character(110,location,name,'C'), _bullets(6){}
+
 void Cowboy:: shoot(Character* enemy){
     if(this == enemy){
         throw runtime_error("The Cowboy cant hithimself");
@@ -21,4 +24,12 @@ void Cowboy:: shoot(Character* enemy){
     }
 
     else return;
+}
+void Cowboy:: reload(){
+    if(isAlive()){
+        _bullets = 6;
+    }
+    else{
+        throw std:: runtime_error("The Cowboy is dead");
+    }
 }

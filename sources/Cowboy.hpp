@@ -2,6 +2,8 @@
 #include "Character.hpp"
 
 
+
+
 namespace ariel{
 
 
@@ -9,23 +11,13 @@ namespace ariel{
         int _bullets;
 
         public:
-        Cowboy(std::string name,Point location):
-            Character(Character(110,location,name,'C')), _bullets(6){}
-        ~Cowboy(){
-            
-        }
+        Cowboy(const std::string& name,Point location);
         
-        void reload(){
-            if(isAlive())_bullets = 6;
-            else{
-                throw std:: runtime_error("The Cowboy is dead");
-            }
+        void reload();
+        bool hasboolets()const {
+           return _bullets !=0;
         }
-        bool hasboolets(){
-            if(_bullets == 0)return false;
-            else return true;
-        }
-        int NumOfBullets(){
+        int NumOfBullets()const{
             return _bullets;
         }    
         void shoot(Character * enemy);

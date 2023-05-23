@@ -8,7 +8,7 @@ namespace ariel{
         public:
             Team2(Character* warrior):
                 Team(warrior) {}
-            ~Team2(){}
+            // ~Team2(){}
             void attack(Team* rival);
             void print();
     };
