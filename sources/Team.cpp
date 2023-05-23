@@ -80,36 +80,12 @@ void Team:: add(Character * warrior){
     }
 }
 
-// void Team:: setTeam(){ 
-//     if(num_of_warriors <= 1){
-//         return;
-//     }
-//     Character* ans[10];
-//     ans[0] = _warriors[0];
-//     int temp =1;
-//     for(int i =1;i<num_of_warriors;++i){
-//         if(_warriors[i]->getType() == 'C'){
-//             ans[temp++] = _warriors[i];
-//         }
-//     }
-//     for(int i =1;i<num_of_warriors;++i){
-//         if(_warriors[i]->getType() == 'N'){
-//             ans[temp++] = _warriors[i];
-//         }
-//     }
-//     for(int i =0;i <num_of_warriors ; ++i){
-//         _warriors[i] = ans[i];
-//     }
-
-// }
 
 void Team::attack(Team* rival){
     if(rival == NULL){
         throw invalid_argument("The  emeny team is null");
     }
-    if(this->stillAlive() == 0){
-        throw runtime_error("The all  team is dead");
-    }
+
     if(rival->stillAlive() == 0){
         throw runtime_error("The all enemy team is dead");
     }

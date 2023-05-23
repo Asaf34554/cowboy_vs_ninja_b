@@ -36,11 +36,7 @@ Point Point:: moveTowards(Point src,Point dst,double dist){
 }
 
 string Point::print(){
-    int intx = _x*1000;
-    int inty = _y*1000;
-    double ansx = intx/1000;
-    double ansy = inty/1000;
-    string ans = "(" +to_string(ansx) + "," +to_string(ansy) + ")";
+    string ans = "(" +to_string(_x) + "," +to_string(_y) + ")";
     return ans;
 }
 
